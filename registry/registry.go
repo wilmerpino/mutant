@@ -11,7 +11,7 @@ type registry struct {
 
 type IRegistry interface {
 	NewAppController() controller.AppController
-	NewCheckController() controller.CheckController
+	NewHealthController() controller.HealthCheckController
 }
 
 func NewRegistry(db *gorm.DB) IRegistry {
@@ -19,9 +19,9 @@ func NewRegistry(db *gorm.DB) IRegistry {
 }
 
 func (r *registry) NewAppController() controller.AppController {
-	return r.NewChainController()
+	return r.NewMutantController()
 }
 
-func (r *registry) NewCheckController() controller.CheckController {
-	return r.NewHealtCheckController()
+func (r *registry) NewHealthController() controller.HealthCheckController {
+	return r.NewHealthCheckController()
 }

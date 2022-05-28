@@ -4,6 +4,6 @@ import (
 	"github.com/wilmerpino/mutant/domain/model"
 )
 
-type IHealtCheckPresenter interface {
+type IHealthCheckPresenter interface {
 	ResponseHealthCheck() model.HealthCheckResponse
 }

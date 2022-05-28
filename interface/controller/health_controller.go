@@ -5,20 +5,20 @@ import (
 	"github.com/wilmerpino/mutant/usecase/interactor"
 )
 
-type healtCheckController struct {
-	healtCheckInteractor interactor.IHealtCheckInteractor
+type healthCheckController struct {
+	healthCheckInteractor interactor.IHealthCheckInteractor
 }
 
-type IHealtCheckController interface {
+type IHealthCheckController interface {
 	GetHealthCheck(iris.Context)
 }
 
-func NewHealtCheckController(hci interactor.IHealtCheckInteractor) IHealtCheckController {
-	return &healtCheckController{hci}
+func NewHealthCheckController(hci interactor.IHealthCheckInteractor) IHealthCheckController {
+	return &healthCheckController{hci}
 }
 
-func (hc *healtCheckController) GetHealthCheck(ctx iris.Context) {
-	obj, err := hc.healtCheckInteractor.GetHealthCheck()
+func (hc *healthCheckController) GetHealthCheck(ctx iris.Context) {
+	obj, err := hc.healthCheckInteractor.GetHealthCheck()
 	if err != nil {
 		ctx.StatusCode(iris.StatusInternalServerError)
 		ctx.StopExecution()

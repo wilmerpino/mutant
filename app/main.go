@@ -19,7 +19,7 @@ func main() {
 	app := iris.Default()
 	r := registry.NewRegistry(db)
 
-	router.NewRouter(app, r.NewCheckController(), r.NewAppController())
+	router.NewRouter(app, r.NewHealthController(), r.NewAppController())
 
 	if err := app.Listen(":" + v.PortServer); err != nil {
 		app.Logger().Errorf("Unable to start server ")

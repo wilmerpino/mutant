@@ -5,18 +5,18 @@ import (
 	"github.com/wilmerpino/mutant/usecase/presenter"
 )
 
-type healtCheckInteractor struct {
-	HealtCheckPresenter presenter.IHealtCheckPresenter
+type healthCheckInteractor struct {
+	HealthCheckPresenter presenter.IHealthCheckPresenter
 }
 
-type IHealtCheckInteractor interface {
+type IHealthCheckInteractor interface {
 	GetHealthCheck() (model.HealthCheckResponse, error)
 }
 
-func NewHealtCheckInteractor(p presenter.IHealtCheckPresenter) IHealtCheckInteractor {
-	return &healtCheckInteractor{p}
+func NewHealthCheckInteractor(p presenter.IHealthCheckPresenter) IHealthCheckInteractor {
+	return &healthCheckInteractor{p}
 }
 
-func (h *healtCheckInteractor) GetHealthCheck() (model.HealthCheckResponse, error) {
-	return h.HealtCheckPresenter.ResponseHealthCheck(), nil
+func (h *healthCheckInteractor) GetHealthCheck() (model.HealthCheckResponse, error) {
+	return h.HealthCheckPresenter.ResponseHealthCheck(), nil
 }

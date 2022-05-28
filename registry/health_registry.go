@@ -7,14 +7,14 @@ import (
 	up "github.com/wilmerpino/mutant/usecase/presenter"
 )
 
-func (r *registry) NewHealtCheckController() controller.IHealtCheckController {
-	return controller.NewHealtCheckController(r.NewHealtCheckInteractor())
+func (r *registry) NewHealthCheckController() controller.IHealthCheckController {
+	return controller.NewHealthCheckController(r.NewHealthCheckInteractor())
 }
 
-func (r *registry) NewHealtCheckInteractor() interactor.IHealtCheckInteractor {
-	return interactor.NewHealtCheckInteractor(r.NewHealtCheckPresenter())
+func (r *registry) NewHealthCheckInteractor() interactor.IHealthCheckInteractor {
+	return interactor.NewHealthCheckInteractor(r.NewHealthCheckPresenter())
 }
 
-func (r *registry) NewHealtCheckPresenter() up.IHealtCheckPresenter {
-	return ip.NewHealtCheckPresenter()
+func (r *registry) NewHealthCheckPresenter() up.IHealthCheckPresenter {
+	return ip.NewHealthCheckPresenter()
 }

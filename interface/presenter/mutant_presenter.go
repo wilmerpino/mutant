@@ -2,17 +2,17 @@ package presenter
 
 import "github.com/wilmerpino/mutant/domain/model"
 
-type chainPresenter struct{}
+type mutantPresenter struct{}
 
-type IChainPresenter interface {
-	ResponseChainsStats(ac []*model.DnaChain) model.Stats
+type IMutantPresenter interface {
+	ResponseMutantsStats(ac []*model.DnaChain) model.Stats
 }
 
-func NewChainPresenter() IChainPresenter {
-	return &chainPresenter{}
+func NewMutantPresenter() IMutantPresenter {
+	return &mutantPresenter{}
 }
 
-func (cp chainPresenter) ResponseChainsStats(ac []*model.DnaChain) model.Stats {
+func (cp *mutantPresenter) ResponseMutantsStats(ac []*model.DnaChain) model.Stats {
 	cMutant, cHuman := 0, 0
 	ratio := float32(1.0)
 	for _, c := range ac {

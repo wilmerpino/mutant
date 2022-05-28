@@ -1,9 +1,9 @@
 package controller
 
 type AppController interface {
-	IChainController
+	IMutantController
 }
 
-type CheckController interface {
-	IHealtCheckController
+type HealthCheckController interface {
+	IHealthCheckController
 }

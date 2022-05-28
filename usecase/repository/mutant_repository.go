@@ -4,6 +4,6 @@ import (
 	"github.com/wilmerpino/mutant/domain/model"
 )
 
-type IChainRepository interface {
+type IMutantRepository interface {
 	FindAll() ([]*model.DnaChain, error)
 }

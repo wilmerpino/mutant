@@ -4,17 +4,17 @@ import (
 	"github.com/wilmerpino/mutant/domain/model"
 )
 
-type healtCheckPresenter struct{}
+type healthCheckPresenter struct{}
 
-type IHealtCheckPresenter interface {
+type IHealthCheckPresenter interface {
 	ResponseHealthCheck() model.HealthCheckResponse
 }
 
-func NewHealtCheckPresenter() IHealtCheckPresenter {
-	return &healtCheckPresenter{}
+func NewHealthCheckPresenter() IHealthCheckPresenter {
+	return &healthCheckPresenter{}
 }
 
-func (h *healtCheckPresenter) ResponseHealthCheck() model.HealthCheckResponse {
+func (h *healthCheckPresenter) ResponseHealthCheck() model.HealthCheckResponse {
 	return model.HealthCheckResponse{
 		Status: "OK",
 	}

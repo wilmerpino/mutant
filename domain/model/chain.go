@@ -13,12 +13,11 @@ type Stats struct {
 }
 
 type InputDNA struct {
-	DNA string `json:"dna"`
+	DNA []string `json:"dna"`
 }
 
 type ResponseError struct {
 	Message string `json:"message"`
-	Code    int16  `json:"code"`
 }
 
 type HealthCheckResponse struct {
