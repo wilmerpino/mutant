@@ -16,8 +16,9 @@ type InputDNA struct {
 	DNA []string `json:"dna"`
 }
 
-type ResponseError struct {
-	Message string `json:"message"`
+type Response struct {
+	Message string      `json:"message"`
+	Data    interface{} `json:"data,omitempty"`
 }
 
 type HealthCheckResponse struct {
@@ -25,7 +26,7 @@ type HealthCheckResponse struct {
 }
 
 type DnaInfo struct {
-	DNA      string
+	DNA      []string
 	IsMutant bool
 }
 

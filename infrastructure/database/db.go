@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/wilmerpino/mutant/domain/model"
 	"github.com/wilmerpino/mutant/infrastructure/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -22,6 +23,8 @@ func NewDB(cfg config.DatabaseConfig) *gorm.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	db.AutoMigrate(&model.Strand{})
 
 	return db
 }

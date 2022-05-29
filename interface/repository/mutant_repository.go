@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"strings"
+	"time"
+
 	"github.com/wilmerpino/mutant/domain/model"
 	"gorm.io/gorm"
 )
@@ -11,7 +14,7 @@ type mutantRepository struct {
 
 type IMutantRepository interface {
 	Save(Mutant model.DnaInfo) error
-	FindAll() ([]*model.DnaChain, error)
+	FindAll() ([]model.Strand, error)
 }
 
 func NewMutantRepository(db *gorm.DB) IMutantRepository {
@@ -19,10 +22,18 @@ func NewMutantRepository(db *gorm.DB) IMutantRepository {
 }
 
 func (cr *mutantRepository) Save(data model.DnaInfo) error {
-	return nil
+	strant := model.Strand{
+		Strand:   strings.Join(data.DNA, " "),
+		IsMutant: data.IsMutant,
+		Date:     time.Now(),
+	}
+
+	result := cr.db.Create(&strant)
+	return result.Error
 }
 
-func (cr *mutantRepository) FindAll() ([]*model.DnaChain, error) {
-	var dc []*model.DnaChain
-	return dc, nil
+func (cr *mutantRepository) FindAll() ([]model.Strand, error) {
+	var strant []model.Strand
+	result := cr.db.Find(&strant)
+	return strant, result.Error
 }

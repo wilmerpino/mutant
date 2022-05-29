@@ -5,14 +5,14 @@ import "github.com/wilmerpino/mutant/domain/model"
 type mutantPresenter struct{}
 
 type IMutantPresenter interface {
-	ResponseMutantsStats(ac []*model.DnaChain) model.Stats
+	ResponseMutantsStats(ac []model.Strand) model.Stats
 }
 
 func NewMutantPresenter() IMutantPresenter {
 	return &mutantPresenter{}
 }
 
-func (cp *mutantPresenter) ResponseMutantsStats(ac []*model.DnaChain) model.Stats {
+func (cp *mutantPresenter) ResponseMutantsStats(ac []model.Strand) model.Stats {
 	cMutant, cHuman := 0, 0
 	ratio := float32(1.0)
 	for _, c := range ac {

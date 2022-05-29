@@ -13,6 +13,7 @@ type mutantInteractor struct {
 
 type IMutantInteractor interface {
 	Stats() (model.Stats, error)
+	SaveStrand(model.DnaInfo) error
 }
 
 func NewMutantInteractor(r repository.IMutantRepository, p presenter.IMutantPresenter) IMutantInteractor {
@@ -26,4 +27,8 @@ func (dc *mutantInteractor) Stats() (model.Stats, error) {
 	}
 
 	return dc.MutantPresenter.ResponseMutantsStats(m), nil
+}
+
+func (dc *mutantInteractor) SaveStrand(data model.DnaInfo) error {
+	return dc.MutantRepository.Save(data)
 }

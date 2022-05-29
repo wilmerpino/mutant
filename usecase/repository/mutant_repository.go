@@ -5,5 +5,6 @@ import (
 )
 
 type IMutantRepository interface {
-	FindAll() ([]*model.DnaChain, error)
+	FindAll() ([]model.Strand, error)
+	Save(model.DnaInfo) error
 }

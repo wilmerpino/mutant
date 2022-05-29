@@ -10,7 +10,7 @@ func (cc *mutantController) GetStats(ctx iris.Context) {
 	dc, err := cc.mutantInteractor.Stats()
 	if err != nil {
 		ctx.StatusCode(iris.StatusInternalServerError)
-		ctx.JSON(model.ResponseError{
+		ctx.JSON(model.Response{
 			Message: constants.INTERNAL_SERVER_ERROR,
 		})
 		return
