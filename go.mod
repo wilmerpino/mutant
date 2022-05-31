@@ -1,10 +1,10 @@
 module github.com/wilmerpino/mutant
 
-go 1.18
+go 1.17
 
 require (
 	github.com/kataras/iris/v12 v12.1.8
-	gorm.io/driver/postgres v1.3.6
+	gorm.io/driver/postgres v1.3.7
 	gorm.io/gorm v1.23.5
 )
 
@@ -32,7 +32,7 @@ require (
 	github.com/jackc/pgtype v1.11.0 // indirect
 	github.com/jackc/pgx/v4 v4.16.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/kataras/golog v0.0.10 // indirect
 	github.com/kataras/pio v0.0.2 // indirect
@@ -52,12 +52,12 @@ require (
 	github.com/yalp/jsonpath v0.0.0-20180802001716-5cc68e5049a0 // indirect
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
-	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
+	golang.org/x/crypto v0.0.0-20220214200702-86341886e292 // indirect
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
 	golang.org/x/sys v0.0.0-20220227234510-4e6760a101f9 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/ini.v1 v1.51.1 // indirect
 	gopkg.in/yaml.v2 v2.2.4 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )

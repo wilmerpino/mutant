@@ -74,8 +74,6 @@ func validaSequence(result map[string]int) bool {
 
 func ValidateStrandDNA(dna [][]string) bool {
 	result := initializeMap()
-	fmt.Println(result)
-	fmt.Println(len(dna))
 	ldna := len(dna)
 	var j int
 	// Horizontal validation
@@ -99,9 +97,55 @@ func ValidateStrandDNA(dna [][]string) bool {
 		result = initializeMap()
 	}
 	// Oblique validation from right to left
+	result2 := initializeMap() // new result for inverse oblique
+	i := ldna - 3
+	for k := 0; k < ldna; k++ {
+		i = ldna - 3 + k
+		for j = ldna - 1; j >= 0; j-- {
+			result[dna[i][j]]++
+			result2[dna[j][i]]++ // check inverse oblique
+			if i == 0 {
+				break
+			}
+			i -= 1
+		}
+		if validaSequence(result) || validaSequence(result2) {
+			return true
+		}
+		if i == j { // breaks when the main diagonal is checked
+			break
+		}
+		result = initializeMap()
+		result2 = initializeMap()
+	}
 
 	// Oblique validation from left to right
+	i = ldna - 3
+	for k := 0; k < ldna; k++ {
+		i = ldna - 3 + k
+		for j = ldna - 1; j >= 0; j-- {
+			fmt.Printf("I: %d, J: %d => %s\n", i, j, dna[i][j])
+			result[dna[i][j]]++
+			fmt.Printf("I: %d, J: %d => %s\n", j, i, dna[j][i])
+			result2[dna[j][i]]++
+			if i == 0 {
+				break
+			}
+			i -= 1
+		}
+		fmt.Println("")
+		if validaSequence(result) || validaSequence(result2) {
+			return true
+		}
+		if i == j {
+			break
+		}
+		fmt.Println(result)
+		fmt.Println(result2)
 
-	fmt.Println(result)
+		result = initializeMap()
+		result2 = initializeMap()
+	}
+
 	return false
 }
