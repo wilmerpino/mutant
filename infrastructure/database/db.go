@@ -11,7 +11,7 @@ import (
 )
 
 func NewDB(cfg config.DatabaseConfig) *gorm.DB {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=America/Santiago",
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s TimeZone=America/Santiago",
 		cfg.Host,
 		cfg.User,
 		cfg.Password,
