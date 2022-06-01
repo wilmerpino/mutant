@@ -21,7 +21,11 @@ func main() {
 
 	router.NewRouter(app, r.NewHealthController(), r.NewAppController())
 
-	if err := app.Listen(":" + v.PortServer); err != nil {
+	host := ":"
+	if v.PortServer != "80" && v.PortServer != "443" {
+		host += v.PortServer
+	}
+	if err := app.Listen(host); err != nil {
 		app.Logger().Errorf("Unable to start server ")
 	}
 
