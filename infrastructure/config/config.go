@@ -32,10 +32,8 @@ func (v *EnviromentConfig) InitVariables() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	v.PortServer, err = utils.ValidString("PORT_SERVER", config.PortServer)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	v.PortServer, _ = utils.ValidString("PORT_SERVER", config.PortServer)
+
 	v.Database.Host, err = utils.ValidString("BD_HOST", config.DBHost)
 	if err != nil {
 		log.Fatal(err.Error())
