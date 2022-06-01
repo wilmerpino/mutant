@@ -2,7 +2,6 @@ package schema
 
 import (
 	"errors"
-	"fmt"
 	"regexp"
 
 	"github.com/kataras/iris/v12"
@@ -73,10 +72,10 @@ func validaSequence(result map[string]int) bool {
 }
 
 func ValidateStrandDNA(dna [][]string) bool {
-	result := initializeMap()
 	ldna := len(dna)
 	var j int
 	// Horizontal validation
+	result := initializeMap()
 	for i := 0; i < ldna; i++ {
 		for j = 0; j < ldna; j++ {
 			result[dna[i][j]]++
@@ -86,7 +85,9 @@ func ValidateStrandDNA(dna [][]string) bool {
 		}
 		result = initializeMap()
 	}
+
 	// Vertical validation
+	result = initializeMap()
 	for i := 0; i < ldna; i++ {
 		for j = 0; j < ldna; j++ {
 			result[dna[j][i]]++
@@ -96,7 +97,9 @@ func ValidateStrandDNA(dna [][]string) bool {
 		}
 		result = initializeMap()
 	}
+
 	// Oblique validation from right to left
+	result = initializeMap()
 	result2 := initializeMap() // new result for inverse oblique
 	i := ldna - 3
 	for k := 0; k < ldna; k++ {
@@ -121,30 +124,26 @@ func ValidateStrandDNA(dna [][]string) bool {
 
 	// Oblique validation from left to right
 	i = ldna - 3
-	for k := 0; k < ldna; k++ {
-		i = ldna - 3 + k
-		for j = ldna - 1; j >= 0; j-- {
-			fmt.Printf("I: %d, J: %d => %s\n", i, j, dna[i][j])
-			result[dna[i][j]]++
-			fmt.Printf("I: %d, J: %d => %s\n", j, i, dna[j][i])
-			result2[dna[j][i]]++
-			if i == 0 {
-				break
-			}
-			i -= 1
+	n := 0
+	j = 0
+	m := i
+	result = initializeMap()
+	for k := 0; k < ldna-1; k++ {
+		if m < ldna {
+			i = ldna - 3 + k
+			m++
+		} else {
+			i = ldna - 1
+			n = m - i + k - 3
 		}
-		fmt.Println("")
-		if validaSequence(result) || validaSequence(result2) {
+		for j = n; j < m; j++ {
+			result[dna[i][j]]++
+			i--
+		}
+		if validaSequence(result) {
 			return true
 		}
-		if i == j {
-			break
-		}
-		fmt.Println(result)
-		fmt.Println(result2)
-
 		result = initializeMap()
-		result2 = initializeMap()
 	}
 
 	return false

@@ -1,0 +1,49 @@
+version: '3'
+services:
+  web:
+    build:
+      args:
+        - APPNAME
+        - MAIN_FILE=cmd/main.go
+      context: .
+      dockerfile: ./Dockerfile
+    image: mutant:latest
+    ports:
+     - "8088:8080"
+    volumes:
+      - ./:/app
+    depends_on:
+      - postgres
+    environment: 
+      APP_NAME   : "Mutant API Rest"
+      LOG_LEVEL  : "debug"
+      PORT_SERVER: "8088"
+      BD_HOST    : postgres
+      BD_USER    : "postgres"
+      BD_NAME    : "mutant"
+      BD_PASSWORD: ""
+      BD_PORT    : "5432"
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: BD_USER
+      POSTGRES_PASSWORD: BD_PASSWORD
+    ports: 
+      - '5430:5432'
+    volumes:
+      - mutant-db:/var/lib/postgresql/data
+  mutant:
+    build:
+      context: .
+    environment:
+      DB_SCHEMA: public
+      DB_USER: BD_USER
+      DB_PASSWORD: BD_PASSWORD
+      DB_HOST: postgres
+    depends_on:
+      - postgres
+    ports:
+      - '8080:8080'
+        
+volumes:
+  mutant-db:  
