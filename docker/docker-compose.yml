@@ -17,7 +17,7 @@ services:
     environment: 
       APP_NAME   : "Mutant API Rest"
       LOG_LEVEL  : "debug"
-      PORT_SERVER: "8088"
+      PORT       : "8088"
       BD_HOST    : postgres
       BD_USER    : "postgres"
       BD_NAME    : "mutant"

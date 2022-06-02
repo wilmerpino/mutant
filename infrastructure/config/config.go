@@ -32,7 +32,7 @@ func (v *EnviromentConfig) InitVariables() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	v.PortServer, err = utils.ValidString("PORT_SERVER", config.PortServer)
+	v.PortServer, err = utils.ValidString("PORT", config.PortServer)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
