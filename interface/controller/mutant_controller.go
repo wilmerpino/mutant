@@ -8,6 +8,9 @@ import (
 	"github.com/wilmerpino/mutant/interface/schema"
 )
 
+type inputDNA struct {
+	DNA []string `json:"dna" example:"ATACA,AGGCT,AGCTC,ACCAA,CCATG"`
+}
 type mutantResponse struct {
 	Message string `json:"message" example:"DNA_MUTANT"`
 }
@@ -66,7 +69,7 @@ func (cc *mutantController) isMutant(ctx presenter.IContext) {
 // @Description Validates whether the DNA strand is human or mutant
 // @Tags Mutant
 // @Produce json
-// @Param  data body model.InputDNA true "DNA strand"
+// @Param  data body inputDNA true "DNA strand"
 // @Success 200 {object} mutantResponse "DNA is mutant"
 // @Failure 403 {object} humanResponse "DNA is human"
 // @Failure 400 {object} inputErrorResponse "Input error"

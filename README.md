@@ -152,6 +152,9 @@ You cant find the postman collector in public/postman/Mutant.postman_collection.
 # Contract Swagger
 You cant find the contract for mutants endpoints in http://localhost:8088/swagger/index.html
 
+# Apache JMeter
+You cant find the Load Test file for JMeter in public/jmeter/MELI- Mutant.jmx
+
 # Heroku
 The application is deployed on the Heroku cloud application service.
 

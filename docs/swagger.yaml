@@ -5,6 +5,19 @@ definitions:
         example: DNA_HUMAN
         type: string
     type: object
+  controller.inputDNA:
+    properties:
+      dna:
+        example:
+        - ATACA
+        - AGGCT
+        - AGCTC
+        - ACCAA
+        - CCATG
+        items:
+          type: string
+        type: array
+    type: object
   controller.inputErrorResponse:
     properties:
       message:
@@ -27,13 +40,6 @@ definitions:
     properties:
       status:
         type: string
-    type: object
-  model.InputDNA:
-    properties:
-      dna:
-        items:
-          type: string
-        type: array
     type: object
   model.Stats:
     properties:
@@ -71,7 +77,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/model.InputDNA'
+          $ref: '#/definitions/controller.inputDNA'
       produces:
       - application/json
       responses:

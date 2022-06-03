@@ -56,7 +56,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.InputDNA"
+                            "$ref": "#/definitions/controller.inputDNA"
                         }
                     }
                 ],
@@ -125,6 +125,24 @@ const docTemplate = `{
                 }
             }
         },
+        "controller.inputDNA": {
+            "type": "object",
+            "properties": {
+                "dna": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "ATACA",
+                        "AGGCT",
+                        "AGCTC",
+                        "ACCAA",
+                        "CCATG"
+                    ]
+                }
+            }
+        },
         "controller.inputErrorResponse": {
             "type": "object",
             "properties": {
@@ -157,17 +175,6 @@ const docTemplate = `{
             "properties": {
                 "status": {
                     "type": "string"
-                }
-            }
-        },
-        "model.InputDNA": {
-            "type": "object",
-            "properties": {
-                "dna": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
                 }
             }
         },
