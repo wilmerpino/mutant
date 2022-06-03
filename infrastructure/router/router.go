@@ -10,9 +10,13 @@ import (
 func NewRouter(app *iris.Application, h controller.HealthCheckController, c controller.AppController) {
 	app.Use(logger.New())
 	app.Use(recover.New())
+	app.RegisterView(iris.HTML("./coverage", ".html"))
 
 	// Configure healthcheck
 	app.Get("/healthcheck", h.GetHealthCheck)
 	app.Post("/mutant", c.IsMutant)
 	app.Get("/stats", c.GetStats)
+	app.Get("/coverage", func(ctx iris.Context) {
+		ctx.View("cover.html")
+	})
 }

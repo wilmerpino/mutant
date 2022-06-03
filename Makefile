@@ -22,3 +22,6 @@ cover-html:
 
 test:	
 	$(GOCMD) test ./... -cover	
+
+swag:
+	swag init --generalInfo  $(MAIN)

@@ -48,12 +48,24 @@ const (
 
 # Run you Mutant App
 ```
-go run cmd/main.go
+go run cmd/main.go 
+or
+make run
+```
+
+# Build your Mutant App
+```
+go build -o ./bin/mutant ./cmd/main.go 
+or
+make build
 ```
 
 # Refresh Swagger Docs
 ```
 swag init --generalInfo  cmd/main.go
+or
+make swag
+
 ```
 
 # Docker
@@ -119,16 +131,39 @@ Response: 200 - Ok
 }
 ```
 
+# Test
+## Run coverage test
+```
+go test ./... -cover
+or
+make test
+```
+## Run html coverage test
+```
+go test -coverprofile=./coverage/cover.out ./... 
+go tool cover -html=./coverage/cover.out -o ./coverage/cover.html
+or
+make cover-html
+```
+Find coverage test in http://localhost:8088/coverage
 # Postman Collector
 You cant find the postman collector in public/postman/Mutant.postman_collection.json
 
 # Contract Swagger
-You cant find the contract for mutants endpoints in /swagger/index.html
+You cant find the contract for mutants endpoints in http://localhost:8088/swagger/index.html
 
 # Heroku
 The application is deployed on the Heroku cloud application service.
-```
+
 Service: https://wp-mutant.herokuapp.com
 
 Contract: https://wp-mutant.herokuapp.com/swagger/index.html
-```
+
+Coverage Test: https://wp-mutant.herokuapp.com/coverage
+
+
+---
+Wilmer Pino
+Software Development Engineer
+Github: https://github.com/wilmerpino
+LinkedIn: https://www.linkedin.com/in/wilmerpino/
