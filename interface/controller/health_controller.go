@@ -17,6 +17,13 @@ func NewHealthCheckController(hci interactor.IHealthCheckInteractor) IHealthChec
 	return &healthCheckController{hci}
 }
 
+// @Summary Healthcheck
+// @Description Check the health of the service
+// @Tags Mutant
+// @Accept x-www-form-urlencoded
+// @Produce json
+// @Success 200 {object} model.HealthCheckResponse "Status OK"
+// @Router /heatlhcheck [get]
 func (hc *healthCheckController) GetHealthCheck(ctx iris.Context) {
 	obj, err := hc.healthCheckInteractor.GetHealthCheck()
 	if err != nil {

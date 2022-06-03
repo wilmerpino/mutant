@@ -49,7 +49,15 @@ const (
 ```
 go run cmd/main.go
 ```
- 
+
+# Refresh Swagger Docs
+```
+swag init --generalInfo  cmd/main.go
+```
+
+# Docker
+(Pending)
+
 # Endpoint
 ## Check service
 Check if the service is active
@@ -118,5 +126,8 @@ The application is deployed on the Heroku cloud application service.
 https://wp-mutant.herokuapp.com
 ```
 
-# Docker
-(Pending)
+# Postman Collector
+You cant find the postman collector in public/postman/Mutant.postman_collection.json
+
+# Contract Swagger
+You cant find the contract for mutants endpoints in /swagger/index.html

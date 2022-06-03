@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 
+	"github.com/iris-contrib/swagger/v12"              // swagger middleware for Iris
+	"github.com/iris-contrib/swagger/v12/swaggerFiles" // swagger embed files
 	"github.com/kataras/iris/v12"
+	_ "github.com/wilmerpino/mutant/docs"
 	"github.com/wilmerpino/mutant/infrastructure/config"
 	"github.com/wilmerpino/mutant/infrastructure/database"
 	"github.com/wilmerpino/mutant/infrastructure/router"
@@ -20,6 +23,14 @@ func main() {
 	r := registry.NewRegistry(db)
 
 	router.NewRouter(app, r.NewHealthController(), r.NewAppController())
+
+	// Swagger Doc
+	swaggerConfig := &swagger.Config{
+		URL: v.SwaggerHost + "/swagger/doc.json", // The url pointing to API definition
+	}
+
+	// use swagger middleware to
+	app.Get("/swagger/{any:path}", swagger.CustomWrapHandler(swaggerConfig, swaggerFiles.Handler))
 
 	host := ""
 	if v.PortServer != "80" && v.PortServer != "443" {

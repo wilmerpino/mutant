@@ -18,7 +18,8 @@ type DatabaseConfig struct {
 type EnviromentConfig struct {
 	AppName,
 	LevelLog,
-	PortServer string
+	PortServer,
+	SwaggerHost string
 	Database DatabaseConfig
 }
 
@@ -29,6 +30,10 @@ func (v *EnviromentConfig) InitVariables() {
 		log.Fatal(err.Error())
 	}
 	v.LevelLog, err = utils.ValidString("LOG_LEVEL", config.LevelLog)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	v.SwaggerHost, err = utils.ValidString("SWAGGER_HOST", config.SwaggerHost)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

@@ -23,6 +23,7 @@ services:
       BD_NAME    : "mutant"
       BD_PASSWORD: ""
       BD_PORT    : "5432"
+      SWAGGER_HOST: "http://localhost:8083"
   postgres:
     image: postgres
     environment:

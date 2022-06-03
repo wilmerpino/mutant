@@ -5,6 +5,6 @@ import (
 )
 
 type IMutantRepository interface {
-	FindAll() ([]model.Strand, error)
 	Save(model.DnaInfo) error
+	CountAll() []model.StatsResult
 }

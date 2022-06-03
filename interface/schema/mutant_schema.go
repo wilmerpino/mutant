@@ -2,14 +2,15 @@ package schema
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 
-	"github.com/kataras/iris/v12"
 	"github.com/wilmerpino/mutant/domain/model"
 	"github.com/wilmerpino/mutant/interface/constants"
+	"github.com/wilmerpino/mutant/interface/presenter"
 )
 
-func ValidateInputDNA(ctx iris.Context) ([][]string, []string, error) {
+func ValidateInputDNA(ctx presenter.IContext) ([][]string, []string, error) {
 	var input model.InputDNA
 	err := ctx.ReadJSON(&input)
 	strand := input.DNA
@@ -52,99 +53,145 @@ func ValidateInputDNA(ctx iris.Context) ([][]string, []string, error) {
 	return dna, strand, nil
 }
 
-func initializeMap() map[string]int {
-	return map[string]int{
-		"A": 0,
-		"C": 0,
-		"G": 0,
-		"T": 0,
-	}
-}
-
-func validaSequence(result map[string]int) bool {
-	for _, val := range result {
-		if val >= 4 {
-			return true
-		}
-	}
-
-	return false
-}
-
 func ValidateStrandDNA(dna [][]string) bool {
 	ldna := len(dna)
 	var j int
 	// Horizontal validation
-	result := initializeMap()
+	var last string
 	for i := 0; i < ldna; i++ {
+		result := 0
+		last = ""
 		for j = 0; j < ldna; j++ {
-			result[dna[i][j]]++
+			if last == dna[i][j] {
+				result++
+				if result >= 3 {
+					fmt.Printf("1- LETRA: %s, I: %d - J: %d\n", dna[i][j], i, j)
+					return true
+				}
+			} else {
+				result = 0
+			}
+			last = dna[i][j]
 		}
-		if validaSequence(result) {
-			return true
-		}
-		result = initializeMap()
 	}
 
 	// Vertical validation
-	result = initializeMap()
+	var result int
 	for i := 0; i < ldna; i++ {
+		result = 0
+		last = ""
 		for j = 0; j < ldna; j++ {
-			result[dna[j][i]]++
+			if last == dna[j][i] {
+				result++
+				if result >= 3 {
+					fmt.Printf("2- LETRA: %s, I: %d - J: %d\n", dna[j][j], j, i)
+					return true
+				}
+			} else {
+				result = 0
+			}
+			last = dna[j][i]
 		}
-		if validaSequence(result) {
-			return true
-		}
-		result = initializeMap()
 	}
 
+	// Principal left to right oblique validation
+	result = 0
+	last = ""
+	for i := 0; i < ldna; i++ {
+		if dna[i][i] == last {
+			result++
+			if result >= 3 {
+				fmt.Printf("3- LETRA: %s, I: %d - J: %d\n", dna[i][i], i, i)
+				return true
+			}
+		} else {
+			result = 0
+		}
+		last = dna[i][i]
+	}
+	// Principal rigth to left oblique validation
+	result = 0
+	last = ""
+	j = 0
+	for i := ldna - 1; i >= 0; i-- {
+		if dna[i][j] == last {
+			result++
+			if result >= 3 {
+				fmt.Printf("3- LETRA: %s, I: %d - J: %d\n", dna[i][i], i, i)
+				return true
+			}
+		} else {
+			result = 0
+		}
+		last = dna[i][j]
+		j++
+	}
 	// Oblique validation from right to left
-	result = initializeMap()
-	result2 := initializeMap() // new result for inverse oblique
-	i := ldna - 3
-	for k := 0; k < ldna; k++ {
-		i = ldna - 3 + k
+	var last2 string
+	var result2 int
+	for k := 3; k < ldna-1; k++ {
+		i := k
+		result = 0
+		result2 = 0
+		last = ""
+		last2 = ""
 		for j = ldna - 1; j >= 0; j-- {
-			result[dna[i][j]]++
-			result2[dna[j][i]]++ // check inverse oblique
+			if dna[i][j] == last {
+				result++
+				if result >= 3 {
+					fmt.Printf("4- LETRA: %s, I: %d - J: %d\n", dna[i][j], i, j)
+					return true
+				}
+			} else {
+				result = 0
+			}
+			if dna[j][i] == last2 { // check inverse oblique
+				result2++
+				if result2 >= 3 {
+					fmt.Printf("5- LETRA: %s, I: %d - J: %d\n", dna[j][i], j, i)
+					return true
+				}
+			} else {
+				result2 = 0
+			}
 			if i == 0 {
 				break
 			}
+			last = dna[i][j]
+			last2 = dna[j][i]
 			i -= 1
 		}
-		if validaSequence(result) || validaSequence(result2) {
-			return true
-		}
-		if i == j { // breaks when the main diagonal is checked
-			break
-		}
-		result = initializeMap()
-		result2 = initializeMap()
 	}
 
 	// Oblique validation from left to right
-	i = ldna - 3
+	i := 3
 	n := 0
 	j = 0
 	m := i
-	result = initializeMap()
 	for k := 0; k < ldna-1; k++ {
-		if m < ldna {
-			i = ldna - 3 + k
-			m++
-		} else {
-			i = ldna - 1
-			n = m - i + k - 3
-		}
+		result = 0
+		last = ""
 		for j = n; j < m; j++ {
-			result[dna[i][j]]++
+			fmt.Printf("I: %d - J: %d\n", i, j)
+			if dna[i][j] == last {
+				result++
+				if result >= 3 {
+					return true
+				}
+			} else {
+				result = 0
+			}
+			last = dna[i][j]
 			i--
 		}
-		if validaSequence(result) {
-			return true
+		if m < ldna-1 {
+			m++
+			i = m
+		} else {
+			i = ldna - 1
+			n++
 		}
-		result = initializeMap()
+		fmt.Println()
 	}
-
 	return false
 }

@@ -14,7 +14,7 @@ type mutantRepository struct {
 
 type IMutantRepository interface {
 	Save(Mutant model.DnaInfo) error
-	FindAll() ([]model.Strand, error)
+	CountAll() []model.StatsResult
 }
 
 func NewMutantRepository(db *gorm.DB) IMutantRepository {
@@ -32,8 +32,12 @@ func (cr *mutantRepository) Save(data model.DnaInfo) error {
 	return result.Error
 }
 
-func (cr *mutantRepository) FindAll() ([]model.Strand, error) {
-	var strant []model.Strand
-	result := cr.db.Find(&strant)
-	return strant, result.Error
+func (cr *mutantRepository) CountAll() []model.StatsResult {
+	var results []model.StatsResult
+	cr.db.Table("strands").
+		Select("COUNT(*) as cant, is_mutant").
+		Group("is_mutant").
+		Scan(&results)
+
+	return results
 }

@@ -1,30 +1,39 @@
 package presenter
 
-import "github.com/wilmerpino/mutant/domain/model"
+import (
+	"github.com/wilmerpino/mutant/domain/model"
+)
 
 type mutantPresenter struct{}
 
 type IMutantPresenter interface {
-	ResponseMutantsStats(ac []model.Strand) model.Stats
+	ResponseMutantsStats(ac []model.StatsResult) model.Stats
 }
 
 func NewMutantPresenter() IMutantPresenter {
 	return &mutantPresenter{}
 }
 
-func (cp *mutantPresenter) ResponseMutantsStats(ac []model.Strand) model.Stats {
+func (cp *mutantPresenter) ResponseMutantsStats(count []model.StatsResult) model.Stats {
 	cMutant, cHuman := 0, 0
-	ratio := float32(1.0)
-	for _, c := range ac {
-		if c.IsMutant {
-			cMutant++
-		} else {
-			cHuman++
-		}
-	}
+	ratio := float32(0)
 
-	if cHuman != 0 {
-		ratio = float32(cMutant) / float32(cHuman)
+	if len(count) > 0 {
+		if count[0].IsMutant {
+			cMutant = count[0].Cant
+		}
+		if len(count) > 1 && count[1].IsMutant {
+			cMutant = count[1].Cant
+		}
+		if !count[0].IsMutant {
+			cHuman = count[0].Cant
+		}
+		if len(count) > 1 && !count[1].IsMutant {
+			cHuman = count[1].Cant
+		}
+		if cHuman != 0 {
+			ratio = float32(cMutant) / float32(cHuman)
+		}
 	}
 
 	return model.Stats{

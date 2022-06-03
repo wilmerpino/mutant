@@ -21,11 +21,7 @@ func NewMutantInteractor(r repository.IMutantRepository, p presenter.IMutantPres
 }
 
 func (dc *mutantInteractor) Stats() (model.Stats, error) {
-	m, err := dc.MutantRepository.FindAll()
-	if err != nil {
-		return model.Stats{}, err
-	}
-
+	m := dc.MutantRepository.CountAll()
 	return dc.MutantPresenter.ResponseMutantsStats(m), nil
 }
 

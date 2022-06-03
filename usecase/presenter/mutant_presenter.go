@@ -5,5 +5,5 @@ import (
 )
 
 type IMutantPresenter interface {
-	ResponseMutantsStats(u []model.Strand) model.Stats
+	ResponseMutantsStats(u []model.StatsResult) model.Stats
 }
