@@ -42,6 +42,7 @@ const (
 	DBName     = "mutant"
 	DBPassword = ""
 	DBPort     = "5432"
+    SwaggerHost = "http://localhost:8088"
 )
 ```
 
@@ -118,16 +119,16 @@ Response: 200 - Ok
 }
 ```
 
-
-
-# Heroku
-The application is deployed on the Heroku cloud application service.
-```
-https://wp-mutant.herokuapp.com
-```
-
 # Postman Collector
 You cant find the postman collector in public/postman/Mutant.postman_collection.json
 
 # Contract Swagger
 You cant find the contract for mutants endpoints in /swagger/index.html
+
+# Heroku
+The application is deployed on the Heroku cloud application service.
+```
+Service: https://wp-mutant.herokuapp.com
+
+Contract: https://wp-mutant.herokuapp.com/swagger/index.html
+```

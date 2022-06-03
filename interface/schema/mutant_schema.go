@@ -2,7 +2,6 @@ package schema
 
 import (
 	"errors"
-	"fmt"
 	"regexp"
 
 	"github.com/wilmerpino/mutant/domain/model"
@@ -65,7 +64,6 @@ func ValidateStrandDNA(dna [][]string) bool {
 			if last == dna[i][j] {
 				result++
 				if result >= 3 {
-					fmt.Printf("1- LETRA: %s, I: %d - J: %d\n", dna[i][j], i, j)
 					return true
 				}
 			} else {
@@ -84,7 +82,6 @@ func ValidateStrandDNA(dna [][]string) bool {
 			if last == dna[j][i] {
 				result++
 				if result >= 3 {
-					fmt.Printf("2- LETRA: %s, I: %d - J: %d\n", dna[j][j], j, i)
 					return true
 				}
 			} else {
@@ -101,7 +98,6 @@ func ValidateStrandDNA(dna [][]string) bool {
 		if dna[i][i] == last {
 			result++
 			if result >= 3 {
-				fmt.Printf("3- LETRA: %s, I: %d - J: %d\n", dna[i][i], i, i)
 				return true
 			}
 		} else {
@@ -117,7 +113,6 @@ func ValidateStrandDNA(dna [][]string) bool {
 		if dna[i][j] == last {
 			result++
 			if result >= 3 {
-				fmt.Printf("3- LETRA: %s, I: %d - J: %d\n", dna[i][i], i, i)
 				return true
 			}
 		} else {
@@ -139,7 +134,6 @@ func ValidateStrandDNA(dna [][]string) bool {
 			if dna[i][j] == last {
 				result++
 				if result >= 3 {
-					fmt.Printf("4- LETRA: %s, I: %d - J: %d\n", dna[i][j], i, j)
 					return true
 				}
 			} else {
@@ -148,7 +142,6 @@ func ValidateStrandDNA(dna [][]string) bool {
 			if dna[j][i] == last2 { // check inverse oblique
 				result2++
 				if result2 >= 3 {
-					fmt.Printf("5- LETRA: %s, I: %d - J: %d\n", dna[j][i], j, i)
 					return true
 				}
 			} else {
@@ -172,7 +165,6 @@ func ValidateStrandDNA(dna [][]string) bool {
 		result = 0
 		last = ""
 		for j = n; j < m; j++ {
-			fmt.Printf("I: %d - J: %d\n", i, j)
 			if dna[i][j] == last {
 				result++
 				if result >= 3 {
@@ -191,7 +183,6 @@ func ValidateStrandDNA(dna [][]string) bool {
 			i = ldna - 1
 			n++
 		}
-		fmt.Println()
 	}
 	return false
 }

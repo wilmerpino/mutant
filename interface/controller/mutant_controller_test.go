@@ -6,10 +6,24 @@ import (
 	"testing"
 
 	"github.com/kataras/iris/v12"
+	"github.com/stretchr/testify/assert"
 	"github.com/wilmerpino/mutant/domain/model"
 	"github.com/wilmerpino/mutant/interface/constants"
 	"github.com/wilmerpino/mutant/tests/mocks"
 )
+
+func TestNewMutantController(t *testing.T) {
+	mockInteractor := &mocks.MockMutantInteractor{}
+
+	expected := &mutantController{
+		mutantInteractor: mockInteractor,
+	}
+
+	actual := NewMutantController(mockInteractor)
+
+	assert.Equal(t, expected, actual)
+	mockInteractor.AssertExpectations(t)
+}
 
 func TestIsMutant(t *testing.T) {
 	mockContext := &mocks.MockContext{}

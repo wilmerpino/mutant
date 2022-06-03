@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>controller: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/wilmerpino/mutant/interface/controller/health_controller.go (75.0%)</option>
+				
+				<option value="file1">github.com/wilmerpino/mutant/interface/controller/interface.go (100.0%)</option>
+				
+				<option value="file2">github.com/wilmerpino/mutant/interface/controller/mutant_controller.go (94.4%)</option>
+				
+				<option value="file3">github.com/wilmerpino/mutant/interface/controller/stats_controller.go (87.5%)</option>
+				
+				<option value="file4">github.com/wilmerpino/mutant/interface/presenter/healthcheck_presenter.go (100.0%)</option>
+				
+				<option value="file5">github.com/wilmerpino/mutant/interface/presenter/mutant_presenter.go (93.3%)</option>
+				
+				<option value="file6">github.com/wilmerpino/mutant/usecase/interactor/healthcheck_interactor.go (100.0%)</option>
+				
+				<option value="file7">github.com/wilmerpino/mutant/usecase/interactor/mutant_interactor.go (100.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package controller
+
+import (
+        "github.com/kataras/iris/v12"
+        "github.com/wilmerpino/mutant/interface/presenter"
+        "github.com/wilmerpino/mutant/usecase/interactor"
+)
+
+type healthCheckController struct {
+        healthCheckInteractor interactor.IHealthCheckInteractor
+}
+
+type IHealthCheckController interface {
+        GetHealthCheck(iris.Context)
+}
+
+func NewHealthCheckController(hci interactor.IHealthCheckInteractor) IHealthCheckController <span class="cov0" title="0">{
+        return &amp;healthCheckController{hci}
+}</span>
+
+func (hc *healthCheckController) getHealthCheck(ctx presenter.IContext) <span class="cov8" title="1">{
+        obj, err := hc.healthCheckInteractor.GetHealthCheck()
+        if err != nil </span><span class="cov8" title="1">{
+                ctx.StatusCode(iris.StatusInternalServerError)
+                ctx.StopExecution()
+                return
+        }</span>
+
+        <span class="cov8" title="1">ctx.JSON(obj)</span>
+}
+
+// @Summary Healthcheck
+// @Description Check the health of the service
+// @Tags Mutant
+// @Accept x-www-form-urlencoded
+// @Produce json
+// @Success 200 {object} model.HealthCheckResponse "Status OK"
+// @Router /heatlhcheck [get]
+func (hc *healthCheckController) GetHealthCheck(ctx iris.Context) <span class="cov0" title="0">{
+        hc.getHealthCheck(ctx)
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package controller
+
+import (
+        "github.com/kataras/iris/v12"
+        "github.com/wilmerpino/mutant/usecase/interactor"
+)
+
+type mutantController struct {
+        mutantInteractor interactor.IMutantInteractor
+}
+
+type IMutantController interface {
+        GetStats(ctx iris.Context)
+        IsMutant(ctx iris.Context)
+}
+
+func NewMutantController(c interactor.IMutantInteractor) IMutantController <span class="cov8" title="1">{
+        return &amp;mutantController{c}
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package controller
+
+import (
+        "github.com/kataras/iris/v12"
+        "github.com/wilmerpino/mutant/domain/model"
+        "github.com/wilmerpino/mutant/interface/constants"
+        "github.com/wilmerpino/mutant/interface/presenter"
+        "github.com/wilmerpino/mutant/interface/schema"
+)
+
+type mutantResponse struct {
+        Message string `json:"message" example:"DNA_MUTANT"`
+}
+
+type humanResponse struct {
+        Message string `json:"message" example:"DNA_HUMAN"`
+}
+
+type inputErrorResponse struct {
+        Message string `json:"message" example:"STRAND_LENGTH_INVALID"`
+}
+
+type serverErrorResponse struct {
+        Message string `json:"message" example:"INTERNAL_SERVER_ERROR"`
+}
+
+func (cc *mutantController) isMutant(ctx presenter.IContext) <span class="cov8" title="1">{
+        dna, strand, err := schema.ValidateInputDNA(ctx)
+        if err != nil </span><span class="cov8" title="1">{
+                ctx.StatusCode(iris.StatusBadRequest)
+                ctx.JSON(model.Response{
+                        Message: err.Error(),
+                })
+                return
+        }</span>
+
+        <span class="cov8" title="1">isMutant := schema.ValidateStrandDNA(dna)
+        info := model.DnaInfo{
+                IsMutant: isMutant,
+                DNA:      strand,
+        }
+
+        err = cc.mutantInteractor.SaveStrand(info)
+        if err != nil </span><span class="cov8" title="1">{
+                ctx.StatusCode(iris.StatusBadRequest)
+                ctx.JSON(model.Response{
+                        Message: err.Error(),
+                })
+                return
+        }</span>
+
+        <span class="cov8" title="1">if isMutant </span><span class="cov8" title="1">{
+                ctx.JSON(model.Response{
+                        Message: constants.DNA_MUTANT,
+                })
+                return
+        }</span>
+
+        <span class="cov8" title="1">ctx.StatusCode(iris.StatusForbidden)
+        ctx.JSON(model.Response{
+                Message: constants.DNA_HUMAN,
+        })</span>
+}
+
+// @Summary DNA strand is human or mutant
+// @Description Validates whether the DNA strand is human or mutant
+// @Tags Mutant
+// @Produce json
+// @Param  data body model.InputDNA true "DNA strand"
+// @Success 200 {object} mutantResponse "DNA is mutant"
+// @Failure 403 {object} humanResponse "DNA is human"
+// @Failure 400 {object} inputErrorResponse "Input error"
+// @Failure 500 {object} serverErrorResponse "Errors found"
+// @Router /mutant [post]
+func (cc *mutantController) IsMutant(ctx iris.Context) <span class="cov0" title="0">{
+        cc.isMutant(ctx)
+}</span>
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package controller
+
+import (
+        "github.com/kataras/iris/v12"
+        "github.com/wilmerpino/mutant/domain/model"
+        "github.com/wilmerpino/mutant/interface/constants"
+        "github.com/wilmerpino/mutant/interface/presenter"
+)
+
+func (cc *mutantController) getStats(ctx presenter.IContext) <span class="cov8" title="1">{
+        dc, err := cc.mutantInteractor.Stats()
+        if err != nil </span><span class="cov8" title="1">{
+                ctx.StatusCode(iris.StatusInternalServerError)
+                ctx.JSON(model.Response{
+                        Message: constants.INTERNAL_SERVER_ERROR,
+                })
+                return
+        }</span>
+
+        <span class="cov8" title="1">ctx.StatusCode(iris.StatusOK)
+        ctx.JSON(dc)</span>
+}
+
+// @Summary Stats for DNA mutants vs. humans
+// @Description Obtains the DNA statistics of mutants vs. humans.
+// @Tags Mutant
+// @Produce json
+// @Success 200 {object} model.Stats "Stats for DNA strand"
+// @Failure 500 {object} serverErrorResponse "Errors found"
+// @Router /stats [get]
+func (cc *mutantController) GetStats(ctx iris.Context) <span class="cov0" title="0">{
+        cc.getStats(ctx)
+}</span>
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package presenter
+
+import (
+        "github.com/wilmerpino/mutant/domain/model"
+)
+
+type healthCheckPresenter struct{}
+
+type IHealthCheckPresenter interface {
+        ResponseHealthCheck() model.HealthCheckResponse
+}
+
+func NewHealthCheckPresenter() IHealthCheckPresenter <span class="cov8" title="1">{
+        return &amp;healthCheckPresenter{}
+}</span>
+
+func (h *healthCheckPresenter) ResponseHealthCheck() model.HealthCheckResponse <span class="cov8" title="1">{
+        return model.HealthCheckResponse{
+                Status: "OK",
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package presenter
+
+import (
+        "github.com/wilmerpino/mutant/domain/model"
+)
+
+type mutantPresenter struct{}
+
+type IMutantPresenter interface {
+        ResponseMutantsStats(ac []model.StatsResult) model.Stats
+}
+
+func NewMutantPresenter() IMutantPresenter <span class="cov0" title="0">{
+        return &amp;mutantPresenter{}
+}</span>
+
+func (cp *mutantPresenter) ResponseMutantsStats(count []model.StatsResult) model.Stats <span class="cov8" title="1">{
+        cMutant, cHuman := 0, 0
+        ratio := float32(0)
+
+        if len(count) &gt; 0 </span><span class="cov8" title="1">{
+                if count[0].IsMutant </span><span class="cov8" title="1">{
+                        cMutant = count[0].Cant
+                }</span>
+                <span class="cov8" title="1">if len(count) &gt; 1 &amp;&amp; count[1].IsMutant </span><span class="cov8" title="1">{
+                        cMutant = count[1].Cant
+                }</span>
+                <span class="cov8" title="1">if !count[0].IsMutant </span><span class="cov8" title="1">{
+                        cHuman = count[0].Cant
+                }</span>
+                <span class="cov8" title="1">if len(count) &gt; 1 &amp;&amp; !count[1].IsMutant </span><span class="cov8" title="1">{
+                        cHuman = count[1].Cant
+                }</span>
+                <span class="cov8" title="1">if cHuman != 0 </span><span class="cov8" title="1">{
+                        ratio = float32(cMutant) / float32(cHuman)
+                }</span>
+        }
+
+        <span class="cov8" title="1">return model.Stats{
+                CountMutant: int32(cMutant),
+                CountHuman:  int32(cHuman),
+                Ratio:       ratio,
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package interactor
+
+import (
+        "github.com/wilmerpino/mutant/domain/model"
+        "github.com/wilmerpino/mutant/usecase/presenter"
+)
+
+type healthCheckInteractor struct {
+        HealthCheckPresenter presenter.IHealthCheckPresenter
+}
+
+type IHealthCheckInteractor interface {
+        GetHealthCheck() (model.HealthCheckResponse, error)
+}
+
+func NewHealthCheckInteractor(p presenter.IHealthCheckPresenter) IHealthCheckInteractor <span class="cov8" title="1">{
+        return &amp;healthCheckInteractor{p}
+}</span>
+
+func (h *healthCheckInteractor) GetHealthCheck() (model.HealthCheckResponse, error) <span class="cov8" title="1">{
+        return h.HealthCheckPresenter.ResponseHealthCheck(), nil
+}</span>
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package interactor
+
+import (
+        "github.com/wilmerpino/mutant/domain/model"
+        "github.com/wilmerpino/mutant/usecase/presenter"
+        "github.com/wilmerpino/mutant/usecase/repository"
+)
+
+type mutantInteractor struct {
+        MutantRepository repository.IMutantRepository
+        MutantPresenter  presenter.IMutantPresenter
+}
+
+type IMutantInteractor interface {
+        Stats() (model.Stats, error)
+        SaveStrand(model.DnaInfo) error
+}
+
+func NewMutantInteractor(r repository.IMutantRepository, p presenter.IMutantPresenter) IMutantInteractor <span class="cov8" title="1">{
+        return &amp;mutantInteractor{r, p}
+}</span>
+
+func (dc *mutantInteractor) Stats() (model.Stats, error) <span class="cov8" title="1">{
+        m := dc.MutantRepository.CountAll()
+        return dc.MutantPresenter.ResponseMutantsStats(m), nil
+}</span>
+
+func (dc *mutantInteractor) SaveStrand(data model.DnaInfo) error <span class="cov8" title="1">{
+        return dc.MutantRepository.Save(data)
+}</span>
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

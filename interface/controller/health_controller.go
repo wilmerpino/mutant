@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/kataras/iris/v12"
+	"github.com/wilmerpino/mutant/interface/presenter"
 	"github.com/wilmerpino/mutant/usecase/interactor"
 )
 
@@ -17,14 +18,7 @@ func NewHealthCheckController(hci interactor.IHealthCheckInteractor) IHealthChec
 	return &healthCheckController{hci}
 }
 
-// @Summary Healthcheck
-// @Description Check the health of the service
-// @Tags Mutant
-// @Accept x-www-form-urlencoded
-// @Produce json
-// @Success 200 {object} model.HealthCheckResponse "Status OK"
-// @Router /heatlhcheck [get]
-func (hc *healthCheckController) GetHealthCheck(ctx iris.Context) {
+func (hc *healthCheckController) getHealthCheck(ctx presenter.IContext) {
 	obj, err := hc.healthCheckInteractor.GetHealthCheck()
 	if err != nil {
 		ctx.StatusCode(iris.StatusInternalServerError)
@@ -33,4 +27,15 @@ func (hc *healthCheckController) GetHealthCheck(ctx iris.Context) {
 	}
 
 	ctx.JSON(obj)
+}
+
+// @Summary Healthcheck
+// @Description Check the health of the service
+// @Tags Mutant
+// @Accept x-www-form-urlencoded
+// @Produce json
+// @Success 200 {object} model.HealthCheckResponse "Status OK"
+// @Router /heatlhcheck [get]
+func (hc *healthCheckController) GetHealthCheck(ctx iris.Context) {
+	hc.getHealthCheck(ctx)
 }
